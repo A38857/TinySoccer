@@ -11,9 +11,11 @@ public class Player : MonoBehaviour
 
     bool isGround;
 
-    float moveHorizontal;
+    float moveX;
 
     GameObject _ball;
+
+    public int idPlayer;
 
     public bool isShoot;
 
@@ -25,6 +27,8 @@ public class Player : MonoBehaviour
 
     Vector3 startPosition;
 
+    int shotX;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,62 +37,121 @@ public class Player : MonoBehaviour
         _ball = GameObject.FindGameObjectWithTag("Ball");
         m_rd = GetComponent<Rigidbody2D>();
         startPosition = transform.position;
+
+        moveX = 0;
+
+        if (transform.localScale.x == -1) shotX = -350;
+        else if (transform.localScale.x == 1) shotX = 350;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(animator.GetBool("isJump"));
-        movePlayer();
-        if (Input.GetKeyDown(KeyCode.UpArrow)   && isGround==true)
+        if (idPlayer == 0)
         {
- 
+            movePlayer1();
+            jumpPlayer1();
+            shootBallPlayer1();
+        }
+
+        else if(idPlayer == 1)
+        {
+            movePlayer2();
+            jumpPlayer2();
+            shootBallPlayer2();
+        }
+
+
+
+
+    }
+
+    void jumpPlayer2()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isGround == true)
+        {
             animator.SetBool("isJump", true);
-            Debug.Log("Up");
-            jumpPlayer();
-            
-
+            m_rd.AddForce(Vector2.up * jumpForce);
+            isGround = false;
         }
-        if (Input.GetKeyDown(KeyCode.K))
+    }
+    void jumpPlayer1()
+    {
+        if (Input.GetKeyDown(KeyCode.W) && isGround == true)
         {
-            
-            animator.SetBool("isShoot", true);      
-            shootBall();
-            //Debug.Log(animator.GetBool("isShoot"));
+            animator.SetBool("isJump", true);
+            m_rd.AddForce(Vector2.up * jumpForce);
+            isGround = false;
         }
+    }
+    void movePlayer2( )
+    {
 
+        animator.SetFloat("Speed", Mathf.Abs(moveX));
 
+        transform.position += Vector3.right * moveX * moveSpeed * Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.RightArrow)) moveX = 1;
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) moveX = -1;
+
+        if (Input.GetKeyUp(KeyCode.LeftArrow)|| Input.GetKeyUp(KeyCode.RightArrow)) moveX = 0;
 
     }
 
-    void jumpPlayer()
+    void movePlayer1()
     {
 
-        m_rd.AddForce(Vector2.up*jumpForce);
-        isGround = false;
-    }
-    void movePlayer( )
-    {
+        animator.SetFloat("Speed", Mathf.Abs(moveX));
 
-        moveHorizontal = Input.GetAxis("Horizontal");
+        transform.position += Vector3.right * moveX * moveSpeed * Time.deltaTime;
 
-        animator.SetFloat("Speed", Mathf.Abs(moveHorizontal));
+        if (Input.GetKeyDown(KeyCode.A)) moveX = -1;
 
-        transform.position += Vector3.right * moveHorizontal * moveSpeed * Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.D)) moveX = 1;
+
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D)) moveX = 0;
 
     }
 
 
-    void shootBall()
+    void shootBallPlayer1()
     {
-        if (isShoot == true )
+        if (Input.GetKeyDown(KeyCode.B))
         {
-            _ball.GetComponent<Rigidbody2D>().AddForce(new Vector2(350, 250));
-            Debug.Log("Shoot");
-            adSource.PlayOneShot(shootSound);
+            animator.SetBool("isShoot", true);
+            if (isShoot == true)
+            {
 
+                _ball.GetComponent<Rigidbody2D>().AddForce(new Vector2(350, 250));
+                Debug.Log("Shoot");
+                adSource.PlayOneShot(shootSound);
+
+            }
+            StartCoroutine(enableShoot());
         }
-        StartCoroutine(enableShoot());
+        
+
+
+    }
+    void shootBallPlayer2()
+    {
+
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            animator.SetBool("isShoot", true);
+            if (isShoot == true)
+            {
+                Debug.Log("Shoot: "+shotX);
+                _ball.GetComponent<Rigidbody2D>().AddForce(new Vector2( shotX, 250));
+                //Debug.Log("Shoot");
+                adSource.PlayOneShot(shootSound);
+
+            }
+            StartCoroutine(enableShoot());
+        }
+
 
 
     }

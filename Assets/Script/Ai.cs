@@ -58,7 +58,7 @@ public class Ai : MonoBehaviour
     {
         Debug.Log(_ball.transform.localPosition.x + "    :   " + transform.position.x);
         //Debug.Log(_ball.transform.position.x + "    :   " + transform.position.x);
-        if (_ball.transform.position.x <= transform.position.x)
+        if (_ball.transform.position.x <= transform.position.x && (transform.position.x >= (moveLimitLeft.position.x)))
         {
             animator.SetFloat("Speed",0.5f);
             if (Mathf.Abs(_ball.transform.position.x - transform.position.x) < defenceRange)
@@ -73,6 +73,11 @@ public class Ai : MonoBehaviour
             }
         }
         else if((_ball.transform.position.x >= transform.position.x))
+        {
+            animator.SetFloat("Speed", 0.5f);
+            rbAi.velocity = new Vector2(speed, rbAi.position.y);
+        }
+        else if ((transform.position.x <= (moveLimitLeft.position.x)) && (transform.position.x < deference.position.x))
         {
             animator.SetFloat("Speed", 0.5f);
             rbAi.velocity = new Vector2(speed, rbAi.position.y);

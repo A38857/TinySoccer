@@ -84,7 +84,6 @@ public class Ball : MonoBehaviour
 
         if (col.gameObject.CompareTag("CheckJump"))
         {
-            Debug.Log("Jump");
             _playerAi.GetComponent<Ai>().isJumpAi = true;
         }
     }
