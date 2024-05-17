@@ -73,7 +73,9 @@ public class Ball : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Co Cham");
             _player.GetComponent<Player>().isShoot = true;
+            Debug.Log(_player.GetComponent<Player>().isShoot);
         }
 
         if (col.gameObject.CompareTag("Ai"))

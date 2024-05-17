@@ -44,7 +44,11 @@ public class GameController : MonoBehaviour
         _ball = GameObject.FindGameObjectWithTag("Ball");
         _player = GameObject.FindGameObjectWithTag("Player");
         _clock = GameObject.FindGameObjectWithTag("Clock");
-        _ai = GameObject.FindGameObjectWithTag("Ai");
+        if (_ai)
+        {
+            _ai = GameObject.FindGameObjectWithTag("Ai");
+        }
+        
     }
 
     // Update is called once per frame
@@ -92,14 +96,20 @@ public class GameController : MonoBehaviour
         _ball.GetComponent<Ball>().jumpForce = 0;
         _player.GetComponent<Player>().isShoot = false;
         _player.GetComponent<Player>().moveSpeed = 0;
-        _ai.GetComponent<Ai>().speed = 0;
+        if (_ai)
+        {
+            _ai.GetComponent<Ai>().speed = 0;
+        }
         
     }
     void scorePlayer()
     {
         _ball.GetComponent<Ball>().scoreBall();
         _player.GetComponent<Player>().scorePlayer();
-        _ai.GetComponent<Ai>().scoreAi();
+        if (_ai)
+        {
+            _ai.GetComponent<Ai>().scoreAi();
+        }
 
         incresScore = 1;
     }

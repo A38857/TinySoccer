@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
 
     Vector3 startPosition;
 
-    int shotX;
 
     // Start is called before the first frame update
     void Start()
@@ -40,29 +39,28 @@ public class Player : MonoBehaviour
 
         moveX = 0;
 
-        if (transform.localScale.x == -1) shotX = -350;
-        else if (transform.localScale.x == 1) shotX = 350;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (idPlayer == 0)
         {
+
             movePlayer1();
             jumpPlayer1();
-            shootBallPlayer1();
-        }
 
+        }
+        
         else if(idPlayer == 1)
         {
+
             movePlayer2();
             jumpPlayer2();
-            shootBallPlayer2();
         }
-
-
-
+        shootBallPlayer1();
+        shootBallPlayer2();
 
     }
 
@@ -136,16 +134,15 @@ public class Player : MonoBehaviour
     }
     void shootBallPlayer2()
     {
-
-
+      
         if (Input.GetKeyDown(KeyCode.P))
         {
             animator.SetBool("isShoot", true);
             if (isShoot == true)
             {
-                Debug.Log("Shoot: "+shotX);
-                _ball.GetComponent<Rigidbody2D>().AddForce(new Vector2( shotX, 250));
-                //Debug.Log("Shoot");
+
+                _ball.GetComponent<Rigidbody2D>().AddForce(new Vector2(-350, 250));
+                Debug.Log("Shoot");
                 adSource.PlayOneShot(shootSound);
 
             }
@@ -168,6 +165,7 @@ public class Player : MonoBehaviour
             animator.SetBool("isJump", false);
             isGround = true;
         }
+
 
     }
 
