@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour
+public class GameControlePvP : MonoBehaviour
 {
     public Text leftScoreText;
     public Text rightScoreText;
@@ -23,11 +23,10 @@ public class GameController : MonoBehaviour
 
     GameObject _ball;
 
-    GameObject _player;
+    GameObject[] _player;
 
     GameObject _clock;
 
-    GameObject _ai;
 
     public AudioSource adS;
     public AudioClip soundStart;
@@ -37,6 +36,8 @@ public class GameController : MonoBehaviour
 
     string currentSceneName;
 
+    bool isgoal;
+
     private void Awake()
     {
         currentSceneName = SceneManager.GetActiveScene().name;
@@ -44,21 +45,19 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        isgoal = false;
         adS.PlayOneShot(soundStart);
 
         incresScore = 1;
-        leftScoreInt=0;
-        rightScoreInt=0;
+        leftScoreInt = 0;
+        rightScoreInt = 0;
 
         leftScoreText.text = leftScoreInt.ToString();
         rightScoreText.text = rightScoreInt.ToString();
         _ball = GameObject.FindGameObjectWithTag("Ball");
-        _player = GameObject.FindGameObjectWithTag("Player");
+        _player = GameObject.FindGameObjectsWithTag("Player");
         _clock = GameObject.FindGameObjectWithTag("Clock");
-       
-         _ai = GameObject.FindGameObjectWithTag("Ai");
 
-        
     }
 
     // Update is called once per frame
@@ -71,28 +70,29 @@ public class GameController : MonoBehaviour
     {
         if (_ball.GetComponent<Ball>().leftGoal == true)
         {
-            rightScoreInt+=incresScore;
+            rightScoreInt += incresScore;
             rightScoreText.text = rightScoreInt.ToString();
             _ball.GetComponent<Ball>().leftGoal = false;
             adS.PlayOneShot(soundGoal);
             StartCoroutine(pauseTime());
-
+            isgoal = true;
         }
 
         if (_ball.GetComponent<Ball>().rightGoal == true)
         {
-            leftScoreInt+=incresScore;
+            leftScoreInt += incresScore;
             leftScoreText.text = leftScoreInt.ToString();
 
             _ball.GetComponent<Ball>().rightGoal = false;
             adS.PlayOneShot(soundGoal);
             StartCoroutine(pauseTime());
-            
+            isgoal = true;
+
         }
         CheckTimeUp();
     }
 
-    IEnumerator  pauseTime()
+    IEnumerator pauseTime()
     {
         pauseGame();
         goalPanel.SetActive(true);
@@ -105,21 +105,19 @@ public class GameController : MonoBehaviour
     {
         incresScore = 0;
         _ball.GetComponent<Ball>().jumpForce = 0;
-        _player.GetComponent<Player>().isShoot = false;
-        _player.GetComponent<Player>().moveSpeed = 0;
-        
-         _ai.GetComponent<Ai>().speed = 0;
-        
-        
+        _player[0].GetComponent<Player>().isShoot = false;
+        _player[0].GetComponent<Player>().moveSpeed = 0;
+        _player[1].GetComponent<Player>().isShoot = false;
+        _player[1].GetComponent<Player>().moveSpeed = 0;
+
     }
     void scorePlayer()
     {
         _ball.GetComponent<Ball>().scoreBall();
-        _player.GetComponent<Player>().scorePlayer();
-        
-         
-         _ai.GetComponent<Ai>().scoreAi();
-        
+
+        _player[0].GetComponent<Player>().scorePlayer();
+        _player[1].GetComponent<Player>().scorePlayer();
+
 
         incresScore = 1;
     }
@@ -143,7 +141,7 @@ public class GameController : MonoBehaviour
                 }
                 timeUPanel.SetActive(true);
             }
-            
+
         }
     }
 
@@ -156,5 +154,4 @@ public class GameController : MonoBehaviour
     {
         SceneManager.LoadScene("Menu");
     }
-
 }
