@@ -5,10 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/PlayScenePvP.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ChooseTeamPvC.unity
     guid: 81c3f2d9870c5714c8503edc01286f3a
   - enabled: 1
@@ -17,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ModePlay.unity
     guid: 44641f291427a804ea1f7c23e4f2e505
+  - enabled: 1
+    path: Assets/Scenes/PlayScenePvP.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/PlayScenePvC.unity
     guid: 3980d99a56f0ffa4f8fbbba03f53a7e3

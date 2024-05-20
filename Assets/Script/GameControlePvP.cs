@@ -36,7 +36,6 @@ public class GameControlePvP : MonoBehaviour
 
     string currentSceneName;
 
-    bool isgoal;
 
     private void Awake()
     {
@@ -45,7 +44,6 @@ public class GameControlePvP : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        isgoal = false;
         adS.PlayOneShot(soundStart);
 
         incresScore = 1;
@@ -75,7 +73,6 @@ public class GameControlePvP : MonoBehaviour
             _ball.GetComponent<Ball>().leftGoal = false;
             adS.PlayOneShot(soundGoal);
             StartCoroutine(pauseTime());
-            isgoal = true;
         }
 
         if (_ball.GetComponent<Ball>().rightGoal == true)
@@ -86,7 +83,6 @@ public class GameControlePvP : MonoBehaviour
             _ball.GetComponent<Ball>().rightGoal = false;
             adS.PlayOneShot(soundGoal);
             StartCoroutine(pauseTime());
-            isgoal = true;
 
         }
         CheckTimeUp();

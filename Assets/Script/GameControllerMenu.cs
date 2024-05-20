@@ -5,10 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class GameControllerMenu : MonoBehaviour
 {
+
+    public AudioSource ads;
+    public AudioClip song;
     // Start is called before the first frame update
     void Start()
     {
-        
+        ads.PlayOneShot(song);
     }
 
     // Update is called once per frame
